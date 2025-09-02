@@ -21,8 +21,7 @@ button_attributes = {
 
 def set_entry(value):
     entry.configure(state="normal")
-    entry.delete(0, ctk.END)
-    entry.insert(0, str(value))
+    entry.insert(ctk.END, str(value))
     entry.configure(state="readonly")
 
 entry = ctk.CTkEntry(master=app, width=380, height=60, state="readonly", corner_radius=10, fg_color="#D9D9D9", border_width=2, border_color="#385FFC", text_color="#000000", font=("Arial", 24))
@@ -47,6 +46,10 @@ num3_button.place(x=115, y=235)
 num4_button = ctk.CTkButton(**button_attributes, text="4", command=lambda: set_entry(4))
 num4_button.place(x=15, y=335)
 
+backspace_button = ctk.CTkButton(master=app, width=45, height=15, corner_radius=3, border_width=1, 
+                                 border_color="#385FFC", fg_color="#1A4BEB", hover_color="#03308B", 
+                                 text_color="#000000", font= ("Arial", 24), hover=True, text="←")
+backspace_button.place(x=28, y=85)
 #TODO: implement backend functions
 
 addition_button = ctk.CTkButton(**button_attributes, text="+")
