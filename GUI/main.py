@@ -1,76 +1,111 @@
 import customtkinter as ctk
 
-app = ctk.CTk()
-app.geometry("405x425")
-app.title("Quinary Calculator")
-app.resizable(False, False)
+import conversion
+from operations import unary_ops
 
-button_attributes = {
-    "master": app, 
-    "width": 75, 
-    "height": 75, 
-    "corner_radius": 7, 
-    "border_width": 2, 
-    "border_color": "#385FFC", 
-    "fg_color": "#1A4BEB", 
-    "hover_color": "#03308B", 
-    "text_color":"#000000", 
-    "font": ("Arial", 24),
-    "hover": True
-}
+def run():
+    app = ctk.CTk()
+    app.geometry("405x425")
+    app.title("Quinary Calculator")
+    app.resizable(False, False)
 
-def set_entry(value):
-    entry.configure(state="normal")
-    entry.insert(ctk.END, str(value))
-    entry.configure(state="readonly")
+    button_attributes = {
+        "master": app, 
+        "width": 75, 
+        "height": 75, 
+        "corner_radius": 7, 
+        "border_width": 2, 
+        "border_color": "#385FFC", 
+        "fg_color": "#1A4BEB", 
+        "hover_color": "#03308B", 
+        "text_color":"#000000", 
+        "font": ("Arial", 24),
+        "hover": True
+    } 
 
-entry = ctk.CTkEntry(master=app, width=380, height=60, state="readonly", corner_radius=10, fg_color="#D9D9D9", border_width=2, border_color="#385FFC", text_color="#000000", font=("Arial", 24))
-entry.place(x=15, y=15)
+    def set_entry(value):
+        entry.configure(state="normal")
+        entry.insert(ctk.END, str(value))
+        entry.configure(state="readonly")
 
-toggle = ctk.CTkTextbox(master=app, width=200, height=30)
-toggle.insert("0.0", "Toogle here with ctk.CTkSwitch")
-toggle.place(x=185, y=85)
+    def convert_entry_to_decimal():
+        entry_value = entry.get()
+        decimal_value = conversion.convert_to_decimal(entry_value)
+        entry.configure(state="normal")
+        entry.delete(0, ctk.END)
+        entry.insert(0, str(decimal_value))
 
-num0_button = ctk.CTkButton(**button_attributes, text="0", command=lambda: set_entry(0))
-num0_button.place(x=15, y=135)
+    def convert_entry_to_quinary():
+        entry_value = entry.get()
+        quinary_value = conversion.convert_to_quinary(entry_value)
+        entry.configure(state="normal")
+        entry.delete(0, ctk.END)
+        entry.insert(0, str(quinary_value))
 
-num1_button = ctk.CTkButton(**button_attributes, text="1", command=lambda: set_entry(1))
-num1_button.place(x=115, y=135)
+    def optionmenu_callback(choice):
+        if choice == "Base 10":
+            convert_entry_to_decimal()
+        elif choice == "Base 5":
+            convert_entry_to_quinary()
 
-num2_button = ctk.CTkButton(**button_attributes, text="2", command=lambda: set_entry(2))
-num2_button.place(x=15, y=235)
+    entry = ctk.CTkEntry(master=app, width=380, height=60, state="readonly", corner_radius=10, fg_color="#D9D9D9", border_width=2, border_color="#385FFC", text_color="#000000", font=("Arial", 24))
+    entry.place(x=15, y=15)
 
-num3_button = ctk.CTkButton(**button_attributes, text="3", command=lambda: set_entry(3))
-num3_button.place(x=115, y=235)
+    togglemenu = ctk.CTkOptionMenu(app, values=["Base 5", "Base 10"], command= optionmenu_callback)
+    togglemenu.place(x=185, y=85)
 
-num4_button = ctk.CTkButton(**button_attributes, text="4", command=lambda: set_entry(4))
-num4_button.place(x=15, y=335)
+    num0_button = ctk.CTkButton(**button_attributes, text="0", command=lambda: set_entry(0))
+    num0_button.place(x=15, y=135)
 
-backspace_button = ctk.CTkButton(master=app, width=45, height=15, corner_radius=3, border_width=1, 
-                                 border_color="#385FFC", fg_color="#1A4BEB", hover_color="#03308B", 
-                                 text_color="#000000", font= ("Arial", 24), hover=True, text="←")
-backspace_button.place(x=28, y=85)
-#TODO: implement backend functions
+    num1_button = ctk.CTkButton(**button_attributes, text="1", command=lambda: set_entry(1))
+    num1_button.place(x=115, y=135)
 
-addition_button = ctk.CTkButton(**button_attributes, text="+")
-addition_button.place(x=215, y=135)
+    num2_button = ctk.CTkButton(**button_attributes, text="2", command=lambda: set_entry(2))
+    num2_button.place(x=15, y=235)
 
-subtraction_button = ctk.CTkButton(**button_attributes, text="-")
-subtraction_button.place(x=315, y=135)
+    num3_button = ctk.CTkButton(**button_attributes, text="3", command=lambda: set_entry(3))
+    num3_button.place(x=115, y=235)
 
-multiplication_button = ctk.CTkButton(**button_attributes, text="x")
-multiplication_button.place(x=215, y=235)
+    num4_button = ctk.CTkButton(**button_attributes, text="4", command=lambda: set_entry(4))
+    num4_button.place(x=15, y=335)
 
-division_button = ctk.CTkButton(**button_attributes, text="÷")
-division_button.place(x=315, y=235)
+    def on_square():
+        entry_value = entry.get()
+        square_value = unary_ops.square(entry_value)
+        entry.configure(state="normal")
+        entry.delete(0, ctk.END)
+        entry.insert(0, str(square_value))
 
-square_button = ctk.CTkButton(**button_attributes, text="x²")
-square_button.place(x=215, y=335)
+    def on_square_root():
+        entry_value = entry.get()
+        square_root_value = unary_ops.square_root(entry_value)
+        entry.configure(state="normal")
+        entry.delete(0, ctk.END)
+        entry.insert(0, str(square_root_value))
 
-square_root_button = ctk.CTkButton(**button_attributes, text="√x")
-square_root_button.place(x=315, y=335)
+    #TODO: implement two number operation functions
 
-equals_button = ctk.CTkButton(**button_attributes, text="=")
-equals_button.place(x=115, y=335)
+    addition_button = ctk.CTkButton(**button_attributes, text="+")
+    addition_button.place(x=215, y=135)
 
-app.mainloop()
+    subtraction_button = ctk.CTkButton(**button_attributes, text="-")
+    subtraction_button.place(x=315, y=135)
+
+    multiplication_button = ctk.CTkButton(**button_attributes, text="x")
+    multiplication_button.place(x=215, y=235)
+
+    division_button = ctk.CTkButton(**button_attributes, text="÷")
+    division_button.place(x=315, y=235)
+
+    square_button = ctk.CTkButton(**button_attributes, text="x²", command=on_square)
+    square_button.place(x=215, y=335)
+
+    square_root_button = ctk.CTkButton(**button_attributes, text="√x", command=on_square_root)
+    square_root_button.place(x=315, y=335)
+
+    equals_button = ctk.CTkButton(**button_attributes, text="=")
+    equals_button.place(x=115, y=335)
+
+    app.mainloop()
+    if __name__ == "__main__":
+        run() 
