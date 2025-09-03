@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-import conversion
+from GUI import conversion
 from operations import unary_ops
 
 def run():
