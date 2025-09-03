@@ -29,7 +29,7 @@ def run():
     def set_entry(value):
         entry.configure(state="normal")
         entry.insert(ctk.END, str(value))
-        entry.configure(state="readonly")
+        #entry.configure(state="readonly")
 
     def convert_entry_to_decimal():
         entry_value = entry.get()
@@ -91,7 +91,6 @@ def run():
         current_operator["op"] = op
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
-        entry.configure(state="readonly")
 
     def on_equals():
         second_operand = entry.get()
@@ -118,7 +117,6 @@ def run():
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
         entry.insert(0, str(result))
-        entry.configure(state="readonly")
 
         first_operand["value"] = None
         current_operator["op"] = None
