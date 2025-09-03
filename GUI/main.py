@@ -141,7 +141,7 @@ def run():
     square_root_button = ctk.CTkButton(**button_attributes, text="√x", command=on_square_root)
     square_root_button.place(x=315, y=335)
 
-    equals_button = ctk.CTkButton(**button_attributes, text="=")
+    equals_button = ctk.CTkButton(**button_attributes, text="=", command=on_equals)
     equals_button.place(x=115, y=335)
 
     app.mainloop()
