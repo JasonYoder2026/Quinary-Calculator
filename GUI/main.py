@@ -1,6 +1,8 @@
 import customtkinter as ctk
+
 from GUI import conversion
 from operations import unary_ops
+from operations import binary_ops
 
 def run():
     app = ctk.CTk()
@@ -9,24 +11,26 @@ def run():
     app.resizable(False, False)
 
     button_attributes = {
-    "master": app, 
-    "width": 75, 
-    "height": 75, 
-    "corner_radius": 7, 
-    "border_width": 2, 
-    "border_color": "#385FFC", 
-    "fg_color": "#1A4BEB", 
-    "hover_color": "#03308B", 
-    "text_color":"#000000", 
-    "font": ("Arial", 24),
-    "hover": True
-    }   
+        "master": app, 
+        "width": 75, 
+        "height": 75, 
+        "corner_radius": 7, 
+        "border_width": 2, 
+        "border_color": "#385FFC", 
+        "fg_color": "#1A4BEB", 
+        "hover_color": "#03308B", 
+        "text_color":"#000000", 
+        "font": ("Arial", 24),
+        "hover": True
+    } 
+    current_operator = {"op": None} 
+    first_operand = {"value": None}
 
     def set_entry(value):
         entry.configure(state="normal")
         entry.insert(ctk.END, str(value))
-        entry.configure(state="readonly")
-    
+        #entry.configure(state="readonly")
+
     def convert_entry_to_decimal():
         entry_value = entry.get()
         decimal_value = conversion.convert_to_decimal(entry_value)
@@ -40,7 +44,7 @@ def run():
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
         entry.insert(0, str(quinary_value))
-        
+
     def optionmenu_callback(choice):
         if choice == "Base 10":
             convert_entry_to_decimal()
@@ -82,18 +86,51 @@ def run():
         entry.delete(0, ctk.END)
         entry.insert(0, str(square_root_value))
 
-    #TODO: implement two number operation functions
+    def set_operator(op):
+        first_operand["value"] = entry.get()
+        current_operator["op"] = op
+        entry.configure(state="normal")
+        entry.delete(0, ctk.END)
 
-    addition_button = ctk.CTkButton(**button_attributes, text="+")
+    def on_equals():
+        second_operand = entry.get()
+        op = current_operator["op"]
+        a = first_operand["value"]
+        b = second_operand
+
+        try:
+            if op == "+":
+                result = binary_ops.add(a, b)
+            elif op == "-":
+                result = binary_ops.subtract(a, b)
+            elif op == "*":
+                result = binary_ops.multiply(a, b)
+            elif op == "/":
+                result = binary_ops.divide(a, b)
+            else:
+                result = "ERR"
+        except ZeroDivisionError:
+            result = "DIV0"
+        except Exception:
+            result = "ERR"
+
+        entry.configure(state="normal")
+        entry.delete(0, ctk.END)
+        entry.insert(0, str(result))
+
+        first_operand["value"] = None
+        current_operator["op"] = None
+
+    addition_button = ctk.CTkButton(**button_attributes, text="+", command=lambda: set_operator("+"))
     addition_button.place(x=215, y=135)
 
-    subtraction_button = ctk.CTkButton(**button_attributes, text="-")
+    subtraction_button = ctk.CTkButton(**button_attributes, text="-", command=lambda: set_operator("-"))
     subtraction_button.place(x=315, y=135)
 
-    multiplication_button = ctk.CTkButton(**button_attributes, text="x")
+    multiplication_button = ctk.CTkButton(**button_attributes, text="x", command=lambda: set_operator("*"))
     multiplication_button.place(x=215, y=235)
 
-    division_button = ctk.CTkButton(**button_attributes, text="÷")
+    division_button = ctk.CTkButton(**button_attributes, text="÷", command=lambda: set_operator("/"))
     division_button.place(x=315, y=235)
 
     square_button = ctk.CTkButton(**button_attributes, text="x²", command=on_square)
@@ -102,10 +139,9 @@ def run():
     square_root_button = ctk.CTkButton(**button_attributes, text="√x", command=on_square_root)
     square_root_button.place(x=315, y=335)
 
-    equals_button = ctk.CTkButton(**button_attributes, text="=")
+    equals_button = ctk.CTkButton(**button_attributes, text="=", command=on_equals)
     equals_button.place(x=115, y=335)
 
     app.mainloop()
-
-if __name__ == "__main__":
-    run()
+    if __name__ == "__main__":
+        run() 
