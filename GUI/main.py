@@ -26,10 +26,29 @@ def run():
     current_operator = {"op": None} 
     first_operand = {"value": None}
 
+    button_attributes2 = {
+        "master": app, 
+        "width": 75, 
+        "height": 30, 
+        "corner_radius": 7, 
+        "border_width": 2, 
+        "border_color": "#385FFC", 
+        "fg_color": "#1A4BEB", 
+        "hover_color": "#03308B", 
+        "text_color":"#000000", 
+        "font": ("Arial", 24),
+        "hover": True
+    } 
+
     def set_entry(value):
         entry.configure(state="normal")
         entry.insert(ctk.END, str(value))
         #entry.configure(state="readonly")
+
+    def backspace():
+        entry.configure(state="normal")
+        entry.delete(len(entry.get())-1, ctk.END)
+        entry.configure(state="readonly")
 
     def convert_entry_to_decimal():
         entry_value = entry.get()
@@ -141,6 +160,9 @@ def run():
 
     equals_button = ctk.CTkButton(**button_attributes, text="=", command=on_equals)
     equals_button.place(x=115, y=335)
+
+    backspace_button = ctk.CTkButton(**button_attributes2, text="Del")
+    backspace_button.place(x=15, y=85)
 
     app.mainloop()
     if __name__ == "__main__":
