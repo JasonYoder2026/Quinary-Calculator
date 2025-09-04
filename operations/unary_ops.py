@@ -1,4 +1,4 @@
-from GUI import conversion 
+from operations import conversion 
 
 def square(num_quinary_as_str):
     decimal_value = conversion.convert_to_decimal(num_quinary_as_str)

@@ -1,4 +1,4 @@
-from GUI import conversion
+from operations import conversion
 
 def add(a_quinary, b_quinary):
     a_dec = conversion.convert_to_decimal(a_quinary)
