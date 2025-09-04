@@ -43,7 +43,7 @@ def run():
     def set_entry(value):
         entry.configure(state="normal")
         entry.insert(ctk.END, str(value))
-        #entry.configure(state="readonly")
+        entry.configure(state="readonly")
 
     def backspace():
         entry.configure(state="normal")
@@ -56,6 +56,7 @@ def run():
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
         entry.insert(0, str(decimal_value))
+        entry.configure(state="readonly")
 
     def convert_entry_to_quinary():
         entry_value = entry.get()
@@ -63,6 +64,7 @@ def run():
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
         entry.insert(0, str(quinary_value))
+        entry.configure(state="readonly")
 
     def toggle_button_callback():
         if toggle_button.cget("text") == "Base 10":
@@ -72,33 +74,13 @@ def run():
             convert_entry_to_quinary()
             toggle_button.configure(text="Base 10")
 
-    entry = ctk.CTkEntry(master=app, width=380, height=60, state="readonly", corner_radius=10, fg_color="#D9D9D9", border_width=2, border_color="#385FFC", text_color="#000000", font=("Arial", 24))
-    entry.place(x=15, y=15)
-
-    toggle_button = ctk.CTkButton(**button_attributes2, text="Base 10", command=lambda: toggle_button_callback())
-    toggle_button.place(x=115, y=85)
-
-    num0_button = ctk.CTkButton(**button_attributes, text="0", command=lambda: set_entry(0))
-    num0_button.place(x=15, y=135)
-
-    num1_button = ctk.CTkButton(**button_attributes, text="1", command=lambda: set_entry(1))
-    num1_button.place(x=115, y=135)
-
-    num2_button = ctk.CTkButton(**button_attributes, text="2", command=lambda: set_entry(2))
-    num2_button.place(x=15, y=235)
-
-    num3_button = ctk.CTkButton(**button_attributes, text="3", command=lambda: set_entry(3))
-    num3_button.place(x=115, y=235)
-
-    num4_button = ctk.CTkButton(**button_attributes, text="4", command=lambda: set_entry(4))
-    num4_button.place(x=15, y=335)
-
     def on_square():
         entry_value = entry.get()
         square_value = unary_ops.square(entry_value)
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
         entry.insert(0, str(square_value))
+        entry.configure(state="readonly")
 
     def on_square_root():
         entry_value = entry.get()
@@ -106,12 +88,14 @@ def run():
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
         entry.insert(0, str(square_root_value))
+        entry.configure(state="readonly")
 
     def set_operator(op):
         first_operand["value"] = entry.get()
         current_operator["op"] = op
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
+        entry.configure(state="readonly")
 
     def on_equals():
         second_operand = entry.get()
@@ -138,9 +122,33 @@ def run():
         entry.configure(state="normal")
         entry.delete(0, ctk.END)
         entry.insert(0, str(result))
+        entry.configure(state="readonly")
 
         first_operand["value"] = None
         current_operator["op"] = None
+
+    #Components
+
+    entry = ctk.CTkEntry(master=app, width=380, height=60, state="readonly", corner_radius=10, fg_color="#D9D9D9", border_width=2, border_color="#385FFC", text_color="#000000", font=("Arial", 24))
+    entry.place(x=15, y=15)
+
+    toggle_button = ctk.CTkButton(**button_attributes2, text="Base 10", command=lambda: toggle_button_callback())
+    toggle_button.place(x=115, y=85)
+
+    num0_button = ctk.CTkButton(**button_attributes, text="0", command=lambda: set_entry(0))
+    num0_button.place(x=15, y=135)
+
+    num1_button = ctk.CTkButton(**button_attributes, text="1", command=lambda: set_entry(1))
+    num1_button.place(x=115, y=135)
+
+    num2_button = ctk.CTkButton(**button_attributes, text="2", command=lambda: set_entry(2))
+    num2_button.place(x=15, y=235)
+
+    num3_button = ctk.CTkButton(**button_attributes, text="3", command=lambda: set_entry(3))
+    num3_button.place(x=115, y=235)
+
+    num4_button = ctk.CTkButton(**button_attributes, text="4", command=lambda: set_entry(4))
+    num4_button.place(x=15, y=335)
 
     addition_button = ctk.CTkButton(**button_attributes, text="+", command=lambda: set_operator("+"))
     addition_button.place(x=215, y=135)
@@ -163,7 +171,7 @@ def run():
     equals_button = ctk.CTkButton(**button_attributes, text="=", command=on_equals)
     equals_button.place(x=115, y=335)
 
-    backspace_button = ctk.CTkButton(**button_attributes2, text="Del")
+    backspace_button = ctk.CTkButton(**button_attributes2, text="Del", command=backspace)
     backspace_button.place(x=15, y=85)
 
     app.mainloop()
