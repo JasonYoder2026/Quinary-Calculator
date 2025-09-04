@@ -66,12 +66,44 @@ def run():
         entry.insert(0, str(quinary_value))
         entry.configure(state="readonly")
 
+    def disable_buttons():
+        num0_button.configure(state="disabled")
+        num1_button.configure(state="disabled")
+        num2_button.configure(state="disabled")
+        num3_button.configure(state="disabled")
+        num4_button.configure(state="disabled")
+        addition_button.configure(state="disabled")
+        subtraction_button.configure(state="disabled")
+        multiplication_button.configure(state="disabled")
+        division_button.configure(state="disabled")
+        square_button.configure(state="disabled")
+        square_root_button.configure(state="disabled")
+        equals_button.configure(state="disabled")
+        backspace_button.configure(state="disabled")
+    
+    def enable_buttons():
+        num0_button.configure(state="normal")
+        num1_button.configure(state="normal")
+        num2_button.configure(state="normal")
+        num3_button.configure(state="normal")
+        num4_button.configure(state="normal")
+        addition_button.configure(state="normal")
+        subtraction_button.configure(state="normal")
+        multiplication_button.configure(state="normal")
+        division_button.configure(state="normal")
+        square_button.configure(state="normal")
+        square_root_button.configure(state="normal")
+        equals_button.configure(state="normal")
+        backspace_button.configure(state="normal")
+
     def toggle_button_callback():
         if toggle_button.cget("text") == "Base 10":
             convert_entry_to_decimal()
+            disable_buttons()
             toggle_button.configure(text="Base 5")
         elif toggle_button.cget("text") == "Base 5":
             convert_entry_to_quinary()
+            enable_buttons()
             toggle_button.configure(text="Base 10")
 
     def on_square():
