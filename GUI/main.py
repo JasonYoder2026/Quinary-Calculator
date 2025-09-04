@@ -1,6 +1,6 @@
 import customtkinter as ctk
 
-from GUI import conversion
+from operations import conversion
 from operations import unary_ops
 from operations import binary_ops
 
