@@ -64,17 +64,19 @@ def run():
         entry.delete(0, ctk.END)
         entry.insert(0, str(quinary_value))
 
-    def optionmenu_callback(choice):
-        if choice == "Base 10":
+    def toggle_button_callback():
+        if toggle_button.cget("text") == "Base 10":
             convert_entry_to_decimal()
-        elif choice == "Base 5":
+            toggle_button.configure(text="Base 5")
+        elif toggle_button.cget("text") == "Base 5":
             convert_entry_to_quinary()
+            toggle_button.configure(text="Base 10")
 
     entry = ctk.CTkEntry(master=app, width=380, height=60, state="readonly", corner_radius=10, fg_color="#D9D9D9", border_width=2, border_color="#385FFC", text_color="#000000", font=("Arial", 24))
     entry.place(x=15, y=15)
 
-    togglemenu = ctk.CTkOptionMenu(app, values=["Base 5", "Base 10"], command= optionmenu_callback)
-    togglemenu.place(x=185, y=85)
+    toggle_button = ctk.CTkButton(**button_attributes2, text="Base 10", command=lambda: toggle_button_callback())
+    toggle_button.place(x=115, y=85)
 
     num0_button = ctk.CTkButton(**button_attributes, text="0", command=lambda: set_entry(0))
     num0_button.place(x=15, y=135)
