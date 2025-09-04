@@ -33,6 +33,7 @@
   <li>Refactoring some code</li>
   <li>Wrapping up features</li>
   <li>Small bugs</li>
+  <li>Adding a couple more test cases</li>
 </ul>
 
 **8/30/2025 7:00PM**
